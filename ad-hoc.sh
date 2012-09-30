@@ -5,5 +5,5 @@ iwconfig wlan0 essid "Pi"
 ifconfig wlan0 10.0.0.1 netmask 255.255.255.0
 ifconfig wlan0 up
 
+iptables -F
 iptables-restore < iptables.conf
-
