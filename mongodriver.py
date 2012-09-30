@@ -4,6 +4,7 @@ import pymongo
 import random
 import commands
 import sys
+import re
 from pymongo import Connection
 
 connection = Connection('10.42.0.1', 27017)
@@ -14,17 +15,23 @@ collect = db.users
 
 stdin = sys.stdin.readline()
 
-out = db.users.find({}, { "last": 1 });
-for item in out:
-	if item["last"] != "":
-		print item["last"]
-	else:
-		commands.getoutput('/home/josh/HackNY2012/russ.pl')
+jpg=re.compile('.*\.jpg');
+png=re.compile('.*\.png');
+gif=re.compile('.*\.gif');
+svg=re.compile('.*\.svg');
 
-db.users.remove({})
+if not jpg.match(stdin) and not png.match(stdin) and not gif.match(stdin) and not svg.match(stdin):
+	out = db.users.find({}, { "last": 1 });
+	for item in out:
+		if item["last"] != "":
+			print item["last"]
+		else:
+			commands.getoutput('/home/josh/HackNY2012/russ.pl')
 
-post = { "last" : stdin }
-collect.insert(post)
+	db.users.remove({})
+
+	post = { "last" : stdin }
+	collect.insert(post)
 
 #post = { "last" : "" }
 
