@@ -2,18 +2,19 @@
 
 import pymongo
 import random
-import subprocess
+import commands
+import sys
 from pymongo import Connection
 
-connection = Connection()
+connection = Connection('10.42.0.1', 27017)
 
 db = connection.trollfi
 
 collect = db.users
 
-post = { "last" = "" }
+post = { "last" : "" }
 
-collect.inset(post)
+collect.insert(post)
 
 while True:	
 	stdin = sys.stdin.readline()
@@ -22,9 +23,9 @@ while True:
 		if out != "":
 			print out
 		else:
-			call(./cats.pl)
+			commands.getoutput('/home/josh/HackNY2012/cats.pl')
 		ran = random.randint(0, 10)
 		if ran<=4:
 			stdin=""
-		post = { "last" = stdin }
+		post = { "last" : stdin }
 		collect.insert(post)
